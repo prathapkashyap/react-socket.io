@@ -23,11 +23,15 @@ io.on('connection',function(socket){
         console.log(room)
         socket.join(room)
         currentroom=room;
-        socket.to(room).emit('roomJoined',currentroom);
+        socket.in(room).emit('roomJoined',currentroom);
     });
-    socket.on('msg_sent',({room,message})=>{
+    socket.on('msg_sent',({room,message,user})=>{
         console.log(message);
-        socket.to(room).emit('display_msg',message)
+        io.sockets.to(room).emit('display_msg',{message:message,user:user})
+    });
+    socket.on('room_created',function(room){
+        console.log(' room created fired',room.name);
+    io.sockets.emit('create_room',room)
     })
     
 

@@ -17,7 +17,7 @@ export default class Rooms extends Component {
         room_joined:false,
         current_room:''
     }
-    componentWillMount(){
+    componentDidMount(){
         const socket=openSocket('http://localhost:4000/');
         socket.on('connect',function(){
             console.log('connected');
@@ -28,6 +28,14 @@ export default class Rooms extends Component {
         socket.on('welcome',function(data){
             console.log(data)
         });
+        socket.on('create_room',(room)=>{
+            console.log('create_room')
+            var rooms=[...this.state.rooms,room]
+        this.setState({
+            rooms
+        });
+        })
+
 
     }
     
@@ -45,6 +53,7 @@ export default class Rooms extends Component {
             create:true,
             join:false
         })
+        
     }
 
     handleRoomName=(e)=>{
@@ -61,10 +70,9 @@ export default class Rooms extends Component {
         var newRoomName=this.state.newroom;
       var  roomid=Math.random();
       var room={name:newRoomName,id:roomid}
-        var rooms=[...this.state.rooms,room]
-        this.setState({
-            rooms
-        });
+        
+        this.state.socket.emit('room_created',room);
+        
         console.log(this.state.rooms)
         this.setState({
             newroom:''
@@ -77,7 +85,7 @@ export default class Rooms extends Component {
         
         socket.emit('joinRoom',room);
         socket.on('roomJoined',function(data){
-            console.log('in the function gotoRoom part',data);
+            console.log(data);
            
         });
             this.setState({

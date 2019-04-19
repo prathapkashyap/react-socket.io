@@ -7,8 +7,8 @@ import Chatroom from './components/chatroom';
 import Trial from './components/trial'
 class App extends Component {
   state={
-    userlogin:true,
-    username:'taylor',
+    userlogin:false,
+    username:'',
     current_room:'',
     room_joined:false,
     socket:null

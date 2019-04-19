@@ -5,7 +5,7 @@ export default class Chatroom extends Component {
   constructor(props){
     super(props)
     this.state={
-      message:[''],
+      message:[],
       user:'',
       
       new_message:'',
@@ -22,7 +22,13 @@ export default class Chatroom extends Component {
     })
     var socket=this.props.socket;
     socket.on('display_msg',(data)=>{
-      console.log('is this the one',data)
+      console.log(data);
+      var user=data.user;
+      var message=[...this.state.message,data]
+      this.setState({
+        message,
+        
+      });
     })
       
   }
@@ -41,22 +47,37 @@ export default class Chatroom extends Component {
      
     
     var socket=this.props.socket;
-    socket.emit('msg_sent',{room:this.props.room,message:this.state.new_message});
+    socket.emit('msg_sent',{room:this.props.room,message:this.state.new_message,user:this.state.user});
+    this.setState({
+      new_message:''
+    })
    }
 
   render() {
     
     
-    
+    let messages;
+    console.log(this.state.message)
+    if(this.state.message.length>0){
+        messages=this.state.message.map((obj,index)=>{
+            return(
+              <div >
+                <p className="blue-text">{obj.user}:</p><p> {obj.message}</p>
+              </div>
+              
+            )
+        })
+        
+    }
     
 
     return (
-      <div className="container">
+      <div className="container" >
         <h4>{this.props.room}</h4>
-        
-        <form onSubmit={this.handleSubmit}>
+        {messages}
+        <form onSubmit={this.handleSubmit} className="container" style={{position:"fixed",bottom:0,left:0,right:0}}>
         <input id="new_message" type="text" onChange={this.handleChat} value={this.state.new_message}/>
-      <button className="btn" > Send</button>
+      <button className="btn blue" > Send</button>
       </form>
       </div>
     )
