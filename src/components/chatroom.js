@@ -1,4 +1,5 @@
-import React, { Component } from 'react'
+import React, { Component } from 'react';
+import {NavLink } from 'react-router-dom';
 
 export default class Chatroom extends Component {
 
@@ -31,6 +32,9 @@ export default class Chatroom extends Component {
       });
     })
       
+  }
+  handleLeaveRoom=(e)=>{
+    this.props.socket.emit('leaveroom',this.props.room)
   }
   
   
@@ -79,6 +83,7 @@ export default class Chatroom extends Component {
         <input id="new_message" type="text" onChange={this.handleChat} value={this.state.new_message}/>
       <button className="btn blue" > Send</button>
       </form>
+      <NavLink to="/" ><button className="btn red" onClick={this.handleLeaveRoom} style={{position:"fixed",top:70,right:100}}> Leave room</button></NavLink>
       </div>
     )
   }

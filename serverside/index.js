@@ -32,6 +32,12 @@ io.on('connection',function(socket){
     socket.on('room_created',function(room){
         console.log(' room created fired',room.name);
     io.sockets.emit('create_room',room)
+    });
+
+    socket.on('leaveroom',(room)=>{
+        socket.leave(room);
+        console.log('ha bitch ya thought you wwas gonna leave this room??? you is stuck here')
+        
     })
     
 

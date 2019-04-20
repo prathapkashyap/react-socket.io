@@ -5,6 +5,8 @@ import UserLogin from './components/userlogin';
 import Rooms from './components/rooms';
 import Chatroom from './components/chatroom';
 import Trial from './components/trial'
+import About from './components/About'
+
 class App extends Component {
   state={
     userlogin:false,
@@ -50,6 +52,7 @@ class App extends Component {
         <Route exact path="/" render={(props)=><Rooms {...props} username={this.state.username} selectRoom={this.selectRoom} />} />
         <Route exact path="/chatroom" render={(props)=><Chatroom {...props} room={this.state.current_room} username={this.state.username} 
                socket={this.state.socket}/>}/>
+        <Route exact path="/About" render={(props)=><About  />}/>
       </BrowserRouter>
        ) }
   }

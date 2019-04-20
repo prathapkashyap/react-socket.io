@@ -6,8 +6,8 @@ import Chatroom from './chatroom'
 export default class Rooms extends Component {
     state={
         rooms:[
-            {name:'the room of requirement',id:1},
-        {name:'the room of bewilderment',id:2}
+            {name:'Mandya',id:1},
+        {name:'Mysore',id:2}
         ],
         join:false,
         create:false,
